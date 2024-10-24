@@ -7,9 +7,7 @@ const Counter = () => {
   const [value, setValue] = useState(0);
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
-  const onclick = () => {
-    dispatch(increment());
-  };
+  const addValue = Number(value) || 0;
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(parseInt(e.target.value));
   };
@@ -18,7 +16,13 @@ const Counter = () => {
       <div>Counter</div>
 
       <div>{count}</div>
-      <button onClick={onclick}>+</button>
+      <button
+        onClick={() => {
+          dispatch(increment());
+        }}
+      >
+        +
+      </button>
       <button
         onClick={() => {
           dispatch(decrement());
@@ -26,16 +30,17 @@ const Counter = () => {
       >
         -
       </button>
-      <input type="text" onChange={handleChange} />
+      <input type="text" value={addValue} onChange={handleChange} />
       <button
         onClick={() => {
-          dispatch(incrementBy(value));
+          dispatch(incrementBy(addValue));
         }}
       >
         add
       </button>
       <button
         onClick={() => {
+          setValue(0);
           dispatch(reset());
         }}
       >
